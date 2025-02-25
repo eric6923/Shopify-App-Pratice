@@ -31,11 +31,13 @@ model Session {
   emailVerified Boolean?  @default(false)
 }
 
-model Reward {
+model reward {
   id          Int     @id @default(autoincrement())
   title       String  
   discount    Float   
-  minOrder    Float   
+  discountType String?
+  minOrderAmount    Float   
+  minOrderQuantity Float
   rewardType  RewardType 
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
