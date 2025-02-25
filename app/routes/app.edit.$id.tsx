@@ -83,12 +83,12 @@ const EditRewardPage = () => {
                         </FormLayout.Group>
           <TextField label="Minimum Order Amount" name="minimumOrderAmount" value={minorder} onChange={(minorder)=>setminorder(Number(minorder))} autoComplete="off"/>
           <TextField label="Minimun Order Quantity" name="minimumOrderQuantity" value={minorderquantity} onChange={(minorderquantity)=>setminorderquantity(Number(minorderquantity))} autoComplete="off"/>
-          <Select label="Reward Type" options={[
+          {/* <Select label="Reward Type" options={[
             {label:"Friend",value:"FRIEND"},
             {label:"Referrer",value:"REFERRER"}
         ]} value={select}
            onChange={(select)=>setselect(select)} 
-        />
+        /> */}
        
        <InlineStack gap="400">
   <Button variant="primary" submit>
