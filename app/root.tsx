@@ -5,6 +5,7 @@ import {
   Scripts,
   ScrollRestoration,
 } from "@remix-run/react";
+import { AppBridgeProvider } from "./routes/AppBridgeContext";
 
 export default function App() {
   return (
@@ -21,7 +22,9 @@ export default function App() {
         <Links />
       </head>
       <body>
+        <AppBridgeProvider>
         <Outlet />
+        </AppBridgeProvider>
         <ScrollRestoration />
         <Scripts />
       </body>

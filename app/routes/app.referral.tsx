@@ -106,7 +106,7 @@ const RewardPage = () => {
                 <InlineStack align="space-between">
                   <Text as="p" variant="headingSm">
                     {reward.title}
-                    {/* {reward.rewardType} */}
+                   
                   </Text>
                   <Text as="p" variant="headingSm">
                   <span
@@ -163,9 +163,6 @@ const RewardPage = () => {
         <Modal.Section>
           <BlockStack gap="400">
             <InlineStack gap="200" align="start">
-              {/* <div className="p-2 bg-sky-50 rounded-lg">
-                <Icon source={PersonIcon} />
-              </div> */}
               <BlockStack gap="100">
                 <RadioButton
                   label="Referrer"

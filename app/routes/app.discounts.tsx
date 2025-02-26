@@ -56,7 +56,7 @@ export const action : ActionFunction = async({request})=>{
     variables: {
         basicCodeDiscount: {  
           title:title,  
-          code: "30FORYOU", 
+          code: "40FORYOU", 
           startsAt,
           endsAt,
           customerSelection: {

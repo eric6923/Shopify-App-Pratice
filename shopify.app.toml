@@ -1,7 +1,7 @@
 # Learn more about configuring your app at https://shopify.dev/docs/apps/tools/cli/configuration
 
 client_id = "14993d74caaf7c040a712c77607dd865"
-application_url = "https://prev-yourself-buildings-changelog.trycloudflare.com"
+application_url = "https://illustration-delegation-hawaiian-hero.trycloudflare.com"
 embedded = true
 name = "project"
 handle = "project-76"
@@ -27,9 +27,9 @@ scopes = "read_orders,read_products,write_products,write_discounts,write_custome
 
 [auth]
 redirect_urls = [
-  "https://prev-yourself-buildings-changelog.trycloudflare.com/auth/callback",
-  "https://prev-yourself-buildings-changelog.trycloudflare.com/auth/shopify/callback",
-  "https://prev-yourself-buildings-changelog.trycloudflare.com/api/auth/callback"
+  "https://illustration-delegation-hawaiian-hero.trycloudflare.com/auth/callback",
+  "https://illustration-delegation-hawaiian-hero.trycloudflare.com/auth/shopify/callback",
+  "https://illustration-delegation-hawaiian-hero.trycloudflare.com/api/auth/callback"
 ]
 
 [pos]

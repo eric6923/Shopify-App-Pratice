@@ -25,10 +25,11 @@ export default function App() {
           Home
         </Link>
         <Link to="/app/additional">Additional page</Link>
-        <Link to="/app/collection">Collection page</Link>
-        <Link to="/app/inventory">Inventory page</Link>
-        <Link to="/app/discounts">Discounts page</Link>
+        <Link to="/app/discounts">Discount page</Link>
+        {/* <Link to="/app/inventory">Inventory page</Link> */}
+        {/* <Link to="/app/discounts">Discounts page</Link> */}
         <Link to="/app/referral">Referral Page</Link>
+        <Link to="/app/products">Products Page</Link>
       </NavMenu>
       <Outlet />
     </AppProvider>
