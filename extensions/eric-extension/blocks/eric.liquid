@@ -1,0 +1,26 @@
+<details>
+    <summary>{{block.settings.title}}</summary>
+    <p>{{block.settings.content}}</p>
+</details>
+
+{% schema %}
+{
+    "name":"ERIC",
+    "target":"section",
+    "settings":[ 
+        {
+            "type":"text",
+            "id":"title",
+            "label":"Title",
+            "default":"Hello World"
+        },
+        {
+            "type":"richtext",
+            "id":"content",
+            "label":"Content",
+            "default":"<p>Describe your content</p>"
+        }
+
+    ]
+}
+{% endschema %}
