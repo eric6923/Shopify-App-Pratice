@@ -1,7 +1,7 @@
 # Learn more about configuring your app at https://shopify.dev/docs/apps/tools/cli/configuration
 
 client_id = "14993d74caaf7c040a712c77607dd865"
-application_url = "https://premiere-skins-animated-journal.trycloudflare.com"
+application_url = "https://stupid-advances-layer-holds.trycloudflare.com"
 embedded = true
 name = "project"
 handle = "project-76"
@@ -27,9 +27,9 @@ scopes = "read_orders,read_products,write_products,write_discounts,write_custome
 
 [auth]
 redirect_urls = [
-  "https://premiere-skins-animated-journal.trycloudflare.com/auth/callback",
-  "https://premiere-skins-animated-journal.trycloudflare.com/auth/shopify/callback",
-  "https://premiere-skins-animated-journal.trycloudflare.com/api/auth/callback"
+  "https://stupid-advances-layer-holds.trycloudflare.com/auth/callback",
+  "https://stupid-advances-layer-holds.trycloudflare.com/auth/shopify/callback",
+  "https://stupid-advances-layer-holds.trycloudflare.com/api/auth/callback"
 ]
 
 [pos]
