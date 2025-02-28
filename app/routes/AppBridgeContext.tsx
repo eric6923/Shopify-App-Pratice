@@ -28,7 +28,7 @@ export function AppBridgeProvider({ children }: { children: React.ReactNode }) {
         const app = createApp({
           apiKey,
           host,
-          forceRedirect: true, // Ensures app is opened inside Shopify admin
+          forceRedirect: true, 
         });
 
         setAppBridge(app);

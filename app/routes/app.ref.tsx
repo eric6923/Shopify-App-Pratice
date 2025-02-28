@@ -12,7 +12,6 @@ import {
   Toast,
   Page,
   Icon,
-  Checkbox,
 } from "@shopify/polaris";
 import { ChevronLeftIcon, SearchIcon } from '@shopify/polaris-icons';
 import { useState, useEffect } from "react";
@@ -101,7 +100,7 @@ export default function RewardForm() {
 
   const handleSearchChange = (value:any) => {
     setSearch(value);
-    
+
     if (value.length > 2) {
       openResourcePicker();
     }
