@@ -14,7 +14,9 @@ import {
   Icon,
 } from "@shopify/polaris";
 import { useState, useEffect } from "react";
-import { ChevronLeftIcon } from "@shopify/polaris-icons";
+import { ChevronLeftIcon, SearchIcon } from "@shopify/polaris-icons";
+import { useAppBridge } from "./AppBridgeContext";
+import { ResourcePicker } from "@shopify/app-bridge/actions";
 
 export const action = async ({ request }) => {
   const formData = await request.formData();
@@ -49,12 +51,54 @@ export default function RewardForm() {
   const [minOrderAmount, setMinOrderAmount] = useState("");
   const [minOrderQuantity, setMinOrderQuantity] = useState("");
   const [toastActive, setToastActive] = useState(false);
+  const [appliesto,setAppliesto] = useState('collections');
+  const [search,setsearch] = useState('');
+  const [selectedItems,setSelectedItems] = useState<{name:string;id:string;title:string}[]>([]);
 
   useEffect(() => {
     if (actionData?.success) setToastActive(true);
   }, [actionData]);
 
   const navigate = useNavigate();
+
+  const appBridge = useAppBridge();
+
+  const openResourcePicker = (query:string) =>{
+    const resourceType = appliesto === 'products'
+    ? ResourcePicker.ResourceType.Product
+    : ResourcePicker.ResourceType.Collection;
+
+    const picker = ResourcePicker.create(appBridge,{
+      resourceType,
+      showHidden: false,
+      initialQuery: query
+    })
+
+    picker.subscribe(ResourcePicker.Action.SELECT,(payload)=>{
+      const selection = payload.selection.map((item:{id:string;title:string})=>({
+        id:item.id,
+        title:item.title,
+      }))
+      console.log("Selected products:",selection);
+      setSelectedItems(selection);
+      selection.forEach((product:{id:any; title:any; variants:any;})=>{
+        console.log("Id",product.id);
+        console.log("Title",product.title)
+      })
+    })
+    picker.dispatch(ResourcePicker.Action.OPEN);
+  }
+
+  const handleSearchChange = (value:any) =>{
+    setsearch(value);
+    if(value.length>0){
+      openResourcePicker(value)
+    }
+  }
+
+  const getSearchPlaceholder=()=>{
+    return appliesto == 'products' ? 'Search products' : 'Search collections'
+  }
 
   return (
     <Frame>
@@ -91,6 +135,60 @@ export default function RewardForm() {
                 />
               </FormLayout.Group>
 
+              <FormLayout.Group>
+                  <Select 
+                    label="Applies to"
+                    options={[
+                      {label:"Specific Collections",value:"collections"},
+                      {label:"Specific Products",value:"products"}
+                    ]}
+                    value={appliesto}
+                    onChange={setAppliesto}
+                    name="appliesto"
+                  />
+                  
+                  <TextField
+                    type="search"
+                    label={appliesto === "products"?"Search Products":"Search Collections"}
+                    placeholder={getSearchPlaceholder()}
+                    autoComplete="off"
+                    value={search}
+                    onChange={handleSearchChange}
+                    prefix={<Icon source={SearchIcon} tone="base"/>}
+                  />
+
+              </FormLayout.Group>
+
+              <Button onClick={()=>openResourcePicker(search)}>
+                Browse {appliesto === 'products'?'Products':'Collections'}
+              </Button>
+
+              {selectedItems.length>0 && (
+                <div style={{marginBottom:'16px'}}>
+                  <p style={{fontWeight:'bold',marginBottom:'8px'}}>
+                    Selected {appliesto} ({selectedItems.length});
+                  </p>
+
+                  <ul style={{listStyle:'none',padding:0}}>
+                    {selectedItems.map((item)=>(
+                      <li key={item.id} style={{display:'flex', alignItems:"center",gap:"4px"}}>• {item.title || item.name}
+                        <button onClick={()=>setSelectedItems(selectedItems.filter((i)=>i.id != item.id))}
+                          style={{
+                            background:"none",
+                            border:"none",
+                            cursor:"pointer",
+                            color:"red",
+                            fontSize:"14px",
+                            marginLeft:"4px",
+                            padding:"2px"
+                          }}
+                          >✖</button>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+
               <TextField 
                 label="Minimum Order Amount" 
                 value={minOrderAmount} 
@@ -119,3 +217,7 @@ export default function RewardForm() {
     </Frame>
   );
 }
+function setSelectedItems(selection: any) {
+  throw new Error("Function not implemented.");
+}
+

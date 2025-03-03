@@ -9,18 +9,14 @@ export default function Dashboard() {
     const picker = ResourcePicker.create(appBridge, {
       resourceType: ResourcePicker.ResourceType.Product,
       options: {
-        selectMultiple: true, // Allow multiple product selection
+        selectMultiple: true, 
       },
     });
 
     picker.subscribe(ResourcePicker.Action.SELECT, (payload) => {
-      // The selection data is in payload.selection
       const selection = payload.selection;
-      
-      // Log the full selection object
       console.log("Selected products:", selection);
       
-      // If you want to extract just the product details:
       selection.forEach((product: { id: any; title: any; variants: any; }) => {
         console.log("Product ID:", product.id);
         console.log("Product Title:", product.title);

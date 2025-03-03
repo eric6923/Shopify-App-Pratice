@@ -32,6 +32,8 @@ model reward {
   discountType String?
   appliesTo   String?
   purchaseType String?
+  products Json?
+  collections Json?
   minOrderAmount    Float   
   minOrderQuantity Float
   rewardType  RewardType 

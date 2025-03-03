@@ -32,6 +32,9 @@ export const action = async ({ request }: { request: Request }) => {
   const purchaseType = formData.get("purchaseType")?.toString() ?? "one-time purchase"
   const rewardTypeValue: RewardType = "REFERRER";
 
+  const selectedItems = formData.get("selectedItems")?.toString();
+  const parsedItems = selectedItems? JSON.parse(selectedItems):[];
+
   if (!rewardTypeValue || !Object.values(RewardType).includes(rewardTypeValue as RewardType)) {
     return json({ error: "Invalid reward type" }, { status: 400 });
   }
@@ -44,7 +47,10 @@ export const action = async ({ request }: { request: Request }) => {
 
   try {
     await prisma.reward.create({
-      data: { title, discount, discountType, minOrderAmount, minOrderQuantity, rewardType, purchaseType, appliesTo },
+      data: { title, discount, discountType, minOrderAmount, minOrderQuantity, rewardType, purchaseType, appliesTo,
+        products:appliesTo === "products"? parsedItems:null,
+        collections:appliesTo === "collections"? parsedItems:null,
+       },
     });
 
     return json({ success: "Reward created successfully" });
@@ -65,7 +71,9 @@ export default function RewardForm() {
   const [appliesto, setAppliesto] = useState('collections');
   const [purchasetype, setPurchasetype] = useState('one-time purchase');
   const [search, setSearch] = useState('');
-  const [selectedItems, setSelectedItems] = useState([]);
+  const [selectedItems, setSelectedItems] = useState<{
+    name: string; id: string;title: string 
+}[]>([]);
 
   useEffect(() => {
     if (actionData?.success) setToastActive(true);
@@ -79,7 +87,7 @@ export default function RewardForm() {
   const navigate = useNavigate();
   const appBridge = useAppBridge();
   
-  const openResourcePicker = () => {
+  const openResourcePicker = (query:string) => {
     const resourceType = appliesto === 'products' 
       ? ResourcePicker.ResourceType.Product 
       : ResourcePicker.ResourceType.Collection;
@@ -87,12 +95,21 @@ export default function RewardForm() {
     const picker = ResourcePicker.create(appBridge, {
       resourceType,
       showHidden: false,
-      initialQuery: search
+      initialQuery: query
     });
     
-    picker.subscribe("selection", (selection) => {
-      console.log(`Selected ${appliesto}:`, selection);
-      setSelectedItems(selection.selection);
+    picker.subscribe(ResourcePicker.Action.SELECT, (payload) => {
+      const selection = payload.selection.map((item:{id:string;title:string})=>({
+        id:item.id,
+        title:item.title,
+      }))
+      console.log("Selected products:", selection);
+      setSelectedItems(selection);
+      selection.forEach((product: { id: any; title: any; variants: any; }) => {
+        console.log("Product ID:", product.id);
+        console.log("Product Title:", product.title);
+        console.log("Product Variants:", product.variants);
+      });
     });
 
     picker.dispatch(ResourcePicker.Action.OPEN);
@@ -101,8 +118,8 @@ export default function RewardForm() {
   const handleSearchChange = (value:any) => {
     setSearch(value);
 
-    if (value.length > 2) {
-      openResourcePicker();
+    if (value.length > 0) {
+      openResourcePicker(value);
     }
   };
 
@@ -170,46 +187,48 @@ export default function RewardForm() {
                   onChange={setAppliesto}
                   name="appliesTo"
                 />
-
-                <Select
-                  label="Purchase type"
-                  options={[
-                    { label: "One-time Purchase", value: "one-time purchase" },
-                    { label: "Subscription", value: "subscription" },
-                    { label: "Both", value: "both" }
-                  ]}
-                  value={purchasetype}
-                  onChange={setPurchasetype}
-                  name="purchaseType"
-                />
-              </FormLayout.Group>
-
-              <FormLayout.Group>
                 <TextField 
+                
                   type="search" 
                   label={appliesto === 'products' ? 'Search products' : 'Search collections'}
                   placeholder={getSearchPlaceholder()}
-                  labelHidden 
                   autoComplete="off" 
                   value={search} 
                   onChange={handleSearchChange}
                   prefix={<Icon source={SearchIcon} tone="base" />} 
                 />
-                <Button onClick={openResourcePicker}>
+              </FormLayout.Group>
+
+                
+                <Button onClick={()=>openResourcePicker(search)}>
                   Browse {appliesto === 'products' ? 'Products' : 'Collections'}
                 </Button>
-              </FormLayout.Group>
+          
 
               {selectedItems.length > 0 && (
                 <div style={{ marginBottom: '16px' }}>
                   <p style={{ fontWeight: 'bold', marginBottom: '8px' }}>
                     Selected {appliesto} ({selectedItems.length}):
                   </p>
-                  <ul style={{ listStyleType: 'none', padding: 0 }}>
-                    {selectedItems.slice(0, 3).map((item) => (
-                      <li key={item.id}>• {item.title || item.name}</li>
+
+                  <ul style={{listStyle:'none',padding:0}}>
+                    {selectedItems.map((item)=>(
+                      <li key={item.id} style={{display:"flex",alignItems:"center",gap:"4px"}}>• {item.title || item.name}
+                      <button onClick={()=>setSelectedItems(selectedItems.filter((i)=>i.id != item.id))} 
+                        style={{
+                          background:"none",
+                          border:"none",
+                          cursor:"pointer",
+                          color:"red",
+                          fontSize:"14px",
+                          marginLeft:"4px",
+                          padding:"2px"
+                        }}
+                        >✖</button>
+                      </li>
                     ))}
-                    {selectedItems.length > 3 && <li>• and {selectedItems.length - 3} more...</li>}
+
+
                   </ul>
                 </div>
               )}
@@ -230,6 +249,11 @@ export default function RewardForm() {
                 type="number" 
                 name="minOrderQuantity" 
                 autoComplete="off" 
+              />
+              
+              <input type="hidden"
+              name="selectedItems"
+              value={JSON.stringify(selectedItems)}
               />
 
               <Button variant="primary" submit>

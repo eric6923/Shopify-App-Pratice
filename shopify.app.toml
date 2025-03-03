@@ -1,7 +1,7 @@
 # Learn more about configuring your app at https://shopify.dev/docs/apps/tools/cli/configuration
 
 client_id = "14993d74caaf7c040a712c77607dd865"
-application_url = "https://transactions-miller-drill-vsnet.trycloudflare.com"
+application_url = "https://dumb-puts-evening-cannon.trycloudflare.com"
 embedded = true
 name = "project"
 handle = "project-76"
@@ -27,9 +27,9 @@ scopes = "read_orders,read_products,write_products,write_discounts,write_custome
 
 [auth]
 redirect_urls = [
-  "https://transactions-miller-drill-vsnet.trycloudflare.com/auth/callback",
-  "https://transactions-miller-drill-vsnet.trycloudflare.com/auth/shopify/callback",
-  "https://transactions-miller-drill-vsnet.trycloudflare.com/api/auth/callback"
+  "https://dumb-puts-evening-cannon.trycloudflare.com/auth/callback",
+  "https://dumb-puts-evening-cannon.trycloudflare.com/auth/shopify/callback",
+  "https://dumb-puts-evening-cannon.trycloudflare.com/api/auth/callback"
 ]
 
 [pos]
