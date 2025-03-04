@@ -1,0 +1,4 @@
+-- AlterTable
+ALTER TABLE "member" ALTER COLUMN "email" DROP NOT NULL,
+ALTER COLUMN "referralCode" DROP NOT NULL,
+ALTER COLUMN "phoneNumber" DROP NOT NULL;

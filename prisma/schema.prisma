@@ -50,7 +50,7 @@ model member{
   id Int @id @default(autoincrement())
   firstName String?
   lastName String?
-  email String @unique
-  referralCode String @unique @default(uuid())
-  phoneNumber String
+  email String? @unique
+  referralCode String? @unique @default(uuid())
+  phoneNumber String?
 }

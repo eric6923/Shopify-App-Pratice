@@ -1,7 +1,7 @@
 # Learn more about configuring your app at https://shopify.dev/docs/apps/tools/cli/configuration
 
 client_id = "14993d74caaf7c040a712c77607dd865"
-application_url = "https://predict-algeria-arrived-jets.trycloudflare.com"
+application_url = "https://connecticut-offer-sys-ensuring.trycloudflare.com"
 embedded = true
 name = "project"
 handle = "project-76"
@@ -23,13 +23,13 @@ api_version = "2025-01"
 
 [access_scopes]
 # Learn more at https://shopify.dev/docs/apps/tools/cli/configuration#access_scopes
-scopes = "read_orders,read_products,write_products,write_discounts,write_customers"
+scopes = "read_orders,read_products,write_customers,write_discounts,write_products"
 
 [auth]
 redirect_urls = [
-  "https://predict-algeria-arrived-jets.trycloudflare.com/auth/callback",
-  "https://predict-algeria-arrived-jets.trycloudflare.com/auth/shopify/callback",
-  "https://predict-algeria-arrived-jets.trycloudflare.com/api/auth/callback"
+  "https://connecticut-offer-sys-ensuring.trycloudflare.com/auth/callback",
+  "https://connecticut-offer-sys-ensuring.trycloudflare.com/auth/shopify/callback",
+  "https://connecticut-offer-sys-ensuring.trycloudflare.com/api/auth/callback"
 ]
 
 [pos]
