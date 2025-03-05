@@ -24,6 +24,7 @@ export const loader = async () => {
 export const action = async ({request}:ActionFunctionArgs)=>{
   const formData = await request.formData();
   const id = Number(formData.get("id"));
+  const status = formData.get("status") === "true";
 
   if(!id){
     return json({error:"Missing reward ID"},{status:400});
@@ -178,9 +179,6 @@ const RewardPage = () => {
             </InlineStack>
 
             <InlineStack gap="200" align="start">
-              {/* <div className="p-2 bg-sky-50 rounded-lg">
-                <Icon source={PersonIcon} />
-              </div> */}
               <BlockStack gap="100">
                 <RadioButton
                   label="Friend"

@@ -24,10 +24,7 @@ export default function App() {
         <Link to="/app" rel="home">
           Home
         </Link>
-        {/* <Link to="/app/additional">Additional page</Link>
-        <Link to="/app/discounts">Discount page</Link> */}
-        {/* <Link to="/app/inventory">Inventory page</Link> */}
-        {/* <Link to="/app/discounts">Discounts page</Link> */}
+
         <Link to="/app/referral">Programs</Link>
         <Link to="/app/member">Member</Link>
         <Link to="/app/products">Products Page</Link>
