@@ -46,7 +46,7 @@ export default function NewMemberPage() {
 
   return (
     <Page title="Create Member">
-      <Card sectioned>  
+      <Card>  
         {actionData?.error && <Text color="critical">{actionData.error}</Text>}
         <Form method="post">
           <TextField label="First Name" name="firstName" value={formValues.firstName} onChange={(v) => handleChange("firstName", v)} autoComplete="given-name" />

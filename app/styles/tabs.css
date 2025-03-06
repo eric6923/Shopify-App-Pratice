@@ -1,0 +1,40 @@
+.dashboard-container {
+    padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  
+  .dashboard-title {
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 20px;
+  }
+  
+  .tabs-header {
+    display: flex;
+    border-bottom: 1px solid #e5e5e5;
+    margin-bottom: 20px;
+  }
+  
+  .tab {
+    padding: 8px 16px;
+    margin-right: 10px;
+    text-decoration: none;
+    color: #6b7280;
+    font-size: 16px;
+    border-bottom: 2px solid transparent;
+  }
+  
+  .tab.active {
+    color: #000;
+    font-weight: 500;
+    border-bottom: 2px solid #000;
+  }
+  
+  .tab-content {
+    background: #fff;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  }

@@ -1,7 +1,7 @@
 # Learn more about configuring your app at https://shopify.dev/docs/apps/tools/cli/configuration
 
 client_id = "14993d74caaf7c040a712c77607dd865"
-application_url = "https://harder-floating-motion-holly.trycloudflare.com"
+application_url = "https://care-highway-jacob-across.trycloudflare.com"
 embedded = true
 name = "project"
 handle = "project-76"
@@ -27,9 +27,9 @@ scopes = "read_orders,read_products,write_customers,write_discounts,write_produc
 
 [auth]
 redirect_urls = [
-  "https://harder-floating-motion-holly.trycloudflare.com/auth/callback",
-  "https://harder-floating-motion-holly.trycloudflare.com/auth/shopify/callback",
-  "https://harder-floating-motion-holly.trycloudflare.com/api/auth/callback"
+  "https://care-highway-jacob-across.trycloudflare.com/auth/callback",
+  "https://care-highway-jacob-across.trycloudflare.com/auth/shopify/callback",
+  "https://care-highway-jacob-across.trycloudflare.com/api/auth/callback"
 ]
 
 [pos]

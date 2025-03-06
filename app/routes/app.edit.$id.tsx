@@ -61,6 +61,7 @@ const EditRewardPage = () => {
   const [minorderquantity, setminorderquantity] = useState(
     reward?.minOrderQuantity,
   );
+  const [applies,setapplies] = useState(reward?.appliesTo)
   const [select, setselect] = useState(reward.rewardType);
   const [discountType, setDiscountType] = useState(
     reward?.discountType || "fixed",
