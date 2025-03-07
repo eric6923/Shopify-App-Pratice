@@ -5,7 +5,7 @@ import { AppProvider } from "@shopify/shopify-app-remix/react";
 import { NavMenu } from "@shopify/app-bridge-react";
 import { Page, Tabs, Card } from "@shopify/polaris";
 import polarisStyles from "@shopify/polaris/build/esm/styles.css?url";
-import styles from "../styles/tabs.css";
+import styles from '../styles/tabs.css?url';
 import TabLayout from "./tablayout";
 
 export const links = () => [
@@ -22,16 +22,16 @@ export default function App() {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const tabs = [
-    { id: "members", content: "Members", path: "/app/member" },
-    { id: "referral", content: "Referral", path: "/app/referral" },
-  ];
+  // const tabs = [
+  //   { id: "members", content: "Members", path: "/app/member" },
+  //   { id: "referral", content: "Referral", path: "/app/referral" },
+  // ];
 
-  const selectedTab = tabs.findIndex((tab) => location.pathname.startsWith(tab.path));
+  // const selectedTab = tabs.findIndex((tab) => location.pathname.startsWith(tab.path));
 
-  const handleTabChange = (selectedTabIndex: number) => {
-    navigate(tabs[selectedTabIndex].path);
-  };
+  // const handleTabChange = (selectedTabIndex: number) => {
+  //   navigate(tabs[selectedTabIndex].path);
+  // };
 
   return (
     <AppProvider isEmbeddedApp apiKey={apiKey}>
@@ -43,15 +43,15 @@ export default function App() {
         <Link to="/app/main">Main Page</Link>
       </NavMenu>
 
-      <Page title="">
+      {/* <Page title="">
         <Tabs tabs={tabs} selected={selectedTab} onSelect={handleTabChange} />
-        
-        <Card>
+         */}
+        {/* <Card> */}
           <TabLayout>
             <Outlet />
           </TabLayout>
-        </Card>
-      </Page>
+        {/* </Card> */}
+      {/* </Page> */}
     </AppProvider>
   );
 }

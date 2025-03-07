@@ -7,7 +7,7 @@ interface TabLayoutProps {
 
 export default function TabLayout({ children }: TabLayoutProps) {
   const location = useLocation();
-  const isMembersActive = location.pathname.includes("/member");
+  const isMembersActive = location.pathname.includes("/member") || location.pathname.includes("/create") || location.pathname.includes("/editmember");
   const isReferralActive = location.pathname.includes("/referral") || (!isMembersActive);
 
   return (

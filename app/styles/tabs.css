@@ -29,7 +29,7 @@
   .tab.active {
     color: #000;
     font-weight: 500;
-    border-bottom: 2px solid #000;
+    border-bottom: 3.5px solid #199d5f;
   }
   
   .tab-content {
