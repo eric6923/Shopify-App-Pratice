@@ -37,6 +37,7 @@ model reward {
   minOrderAmount    Float   
   minOrderQuantity Float
   rewardType  RewardType 
+  status String?
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 }
@@ -51,6 +52,7 @@ model member{
   firstName String?
   lastName String?
   email String? @unique
+  status String?
   referralCode String? @unique @default(uuid())
   phoneNumber String?
 }
