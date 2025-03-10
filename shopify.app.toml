@@ -1,7 +1,7 @@
 # Learn more about configuring your app at https://shopify.dev/docs/apps/tools/cli/configuration
 
 client_id = "14993d74caaf7c040a712c77607dd865"
-application_url = "https://colleague-address-momentum-aged.trycloudflare.com"
+application_url = "https://off-nn-lifetime-jean.trycloudflare.com"
 embedded = true
 name = "project"
 handle = "project-76"
@@ -27,9 +27,9 @@ scopes = "read_orders,read_products,write_customers,write_discounts,write_produc
 
 [auth]
 redirect_urls = [
-  "https://colleague-address-momentum-aged.trycloudflare.com/auth/callback",
-  "https://colleague-address-momentum-aged.trycloudflare.com/auth/shopify/callback",
-  "https://colleague-address-momentum-aged.trycloudflare.com/api/auth/callback"
+  "https://off-nn-lifetime-jean.trycloudflare.com/auth/callback",
+  "https://off-nn-lifetime-jean.trycloudflare.com/auth/shopify/callback",
+  "https://off-nn-lifetime-jean.trycloudflare.com/api/auth/callback"
 ]
 
 [pos]

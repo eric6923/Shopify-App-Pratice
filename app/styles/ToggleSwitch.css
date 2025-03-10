@@ -3,7 +3,15 @@
     display: inline-block;
     width: 40px;
     height: 24px;
-    left: 700px;
+    left: 690px;
+  }
+
+  .status-text {
+    position: absolute;
+    left: 690px;
+    top: 50px;
+    text-align: center;
+    width: 40px;
   }
   
   .toggle-switch input {

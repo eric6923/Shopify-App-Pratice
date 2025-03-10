@@ -151,14 +151,22 @@ const RewardPage = () => {
                             {reward.rewardType}
                           </span>
                         </Text>
-                        <label className="toggle-switch">
-                          <input
-                            type="checkbox"
-                            checked={reward.status || false}
-                            onChange={() => handleStatusChange(reward.id, reward.status || false)}
-                          />
-                          <span className="slider"></span>
-                        </label>
+                        <div className="toggle-container">
+  <label className="toggle-switch">
+    <input
+      type="checkbox"
+      checked={reward.status || false}
+      onChange={() => handleStatusChange(reward.id, reward.status || false)}
+    />
+    <span className="slider"></span>
+  </label>
+  <div className="status-text">
+  <Text as="span" variant="bodySm" 
+    tone={reward.status ? "success" : "subdued"}>
+    {reward.status ? "Active" : "Draft"}
+  </Text>
+  </div>
+</div>
                       </InlineStack>
 
                       <InlineStack gap="200">
