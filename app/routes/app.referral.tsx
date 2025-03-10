@@ -15,7 +15,7 @@ import { PersonIcon } from "@shopify/polaris-icons";
 import { useLoaderData, useNavigate, useFetcher } from "@remix-run/react";
 import { ActionFunctionArgs, json } from "@remix-run/node";
 import prisma from "../db.server";
-import '../styles/ToggleSwitch.css';
+import "../styles/ToggleSwitch.css";
 
 export const loader = async () => {
   const rewards = await prisma.reward.findMany();
@@ -37,7 +37,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
     });
   } else if (method === "PATCH") {
     const status = formData.get("status") === "true";
-    
+
     await prisma.reward.update({
       where: { id },
       data: { status },
@@ -55,9 +55,7 @@ const RewardPage = () => {
   const navigate = useNavigate();
   const fetcher = useFetcher();
 
-  useEffect(() => {
-    // setRewards(initialRewards);
-  }, []);
+  useEffect(() => {}, []);
 
   const handleChange = (value: string) => {
     setSelected(value);
@@ -78,14 +76,16 @@ const RewardPage = () => {
   };
 
   const handleDelete = async (id: number) => {
-    const confirmed = window.confirm("Are you sure you want to delete this reward");
+    const confirmed = window.confirm(
+      "Are you sure you want to delete this reward",
+    );
     if (!confirmed) return;
 
     try {
       const formData = new FormData();
       formData.append("id", id.toString());
       formData.append("_method", "DELETE");
-      setRewards(rewards.filter(reward => reward.id !== id));
+      setRewards(rewards.filter((reward) => reward.id !== id));
       fetcher.submit(formData, { method: "post" });
     } catch (error) {
       console.error("error deleting reward", error);
@@ -94,22 +94,20 @@ const RewardPage = () => {
 
   const handleStatusChange = async (id: number, currentStatus: boolean) => {
     try {
-      const rewardToUpdate = rewards.find(reward => reward.id === id);
+      const rewardToUpdate = rewards.find((reward) => reward.id === id);
       if (!rewardToUpdate) return;
-      
-      const updatedRewards = rewards.map(reward => 
-        reward.id === id 
-          ? { ...reward, status: !currentStatus } 
-          : reward
+
+      const updatedRewards = rewards.map((reward) =>
+        reward.id === id ? { ...reward, status: !currentStatus } : reward,
       );
-      
+
       setRewards(updatedRewards);
-      
+
       const formData = new FormData();
       formData.append("id", id.toString());
       formData.append("status", (!currentStatus).toString());
       formData.append("_method", "PATCH");
-      
+
       fetcher.submit(formData, { method: "post" });
     } catch (error) {
       console.error("Error updating reward status", error);
@@ -142,7 +140,10 @@ const RewardPage = () => {
                         <Text as="p" variant="headingSm">
                           <span
                             style={{
-                              color: reward.rewardType === "REFERRER" ? "green" : "red",
+                              color:
+                                reward.rewardType === "REFERRER"
+                                  ? "green"
+                                  : "red",
                               fontWeight: "bold",
                               padding: "4px 8px",
                               borderRadius: "4px",
@@ -152,40 +153,47 @@ const RewardPage = () => {
                           </span>
                         </Text>
                         <div className="toggle-container">
-  <label className="toggle-switch">
-    <input
-      type="checkbox"
-      checked={reward.status || false}
-      onChange={() => handleStatusChange(reward.id, reward.status || false)}
-    />
-    <span className="slider"></span>
-  </label>
-  <div className="status-text">
-  <Text as="span" variant="bodySm" 
-    tone={reward.status ? "success" : "subdued"}>
-    {reward.status ? "Active" : "Draft"}
-  </Text>
-  </div>
-</div>
+                          <label className="toggle-switch">
+                            <input
+                              type="checkbox"
+                              checked={reward.status || false}
+                              onChange={() =>
+                                handleStatusChange(
+                                  reward.id,
+                                  reward.status || false,
+                                )
+                              }
+                            />
+                            <span className="slider"></span>
+                          </label>
+                          <div className="status-text">
+                            <Text
+                              as="span"
+                              variant="bodySm"
+                              tone={reward.status ? "success" : "subdued"}
+                            >
+                              {reward.status ? "Active" : "Draft"}
+                            </Text>
+                          </div>
+                        </div>
                       </InlineStack>
 
                       <InlineStack gap="200">
-                        <Button 
-                          // variant="plain" 
-                          icon={EditIcon} 
-                          onClick={() => handleEdit(reward.id)} 
+                        <Button
+                          icon={EditIcon}
+                          onClick={() => handleEdit(reward.id)}
                           accessibilityLabel="edit"
                         />
-                        <Button 
-                          // variant="plain" 
-                          icon={DeleteIcon} 
+                        <Button
+                          icon={DeleteIcon}
                           onClick={() => handleDelete(reward.id)}
                         />
                       </InlineStack>
                     </InlineStack>
 
                     <Text as="p">
-                      Discount: {reward.discount} {reward.discountType === "percentage" ? "%" : "$"}
+                      Discount: {reward.discount}{" "}
+                      {reward.discountType === "percentage" ? "%" : "$"}
                     </Text>
                   </BlockStack>
                 </Card>
@@ -240,7 +248,8 @@ const RewardPage = () => {
                   onChange={() => handleChange("friend")}
                 />
                 <Text as="span" variant="bodyMd" tone="subdued">
-                  Friend is the referred person. You can choose to provide a reward for the friend - the referred person.
+                  Friend is the referred person. You can choose to provide a
+                  reward for the friend - the referred person.
                 </Text>
               </BlockStack>
             </InlineStack>
