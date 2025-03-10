@@ -47,12 +47,19 @@ enum RewardType {
   FRIEND
 }
 
+enum Status {
+  APPROVED
+  PENDING
+  REJECT
+  DISABLE 
+}
+
 model member{
   id Int @id @default(autoincrement())
   firstName String?
   lastName String?
   email String? @unique
-  status String?
+  status Status? @default(PENDING)
   referralCode String? @unique @default(uuid())
   phoneNumber String?
 }
