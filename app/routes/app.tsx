@@ -6,6 +6,7 @@ import { NavMenu } from "@shopify/app-bridge-react";
 import { Page, Tabs, Card } from "@shopify/polaris";
 import polarisStyles from "@shopify/polaris/build/esm/styles.css?url";
 import styles from '../styles/tabs.css?url';
+
 import TabLayout from "./tablayout";
 
 export const links = () => [
@@ -39,8 +40,8 @@ export default function App() {
         <Link to="/app" rel="home">Home</Link>
         {/* <Link to="/app/referral">Programs</Link>
         <Link to="/app/member">Member</Link>
-        <Link to="/app/products">Products</Link>
-        <Link to="/app/main">Main Page</Link> */}
+        <Link to="/app/products">Products</Link> */}
+        <Link to="/app/main">Main Page</Link>
       </NavMenu>
 
       {/* <Page title="">

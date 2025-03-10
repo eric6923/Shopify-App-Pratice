@@ -37,7 +37,7 @@ model reward {
   minOrderAmount    Float   
   minOrderQuantity Float
   rewardType  RewardType 
-  status String?
+  status      Boolean?  @default(true)
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 }

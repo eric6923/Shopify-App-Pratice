@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   Modal,
   Button,
@@ -12,37 +12,52 @@ import {
 } from "@shopify/polaris";
 import { EditIcon, DeleteIcon } from "@shopify/polaris-icons";
 import { PersonIcon } from "@shopify/polaris-icons";
-import { useLoaderData, useNavigate } from "@remix-run/react";
+import { useLoaderData, useNavigate, useFetcher } from "@remix-run/react";
 import { ActionFunctionArgs, json } from "@remix-run/node";
 import prisma from "../db.server";
+import '../styles/ToggleSwitch.css';
 
 export const loader = async () => {
   const rewards = await prisma.reward.findMany();
   return json({ rewards });
 };
 
-export const action = async ({request}:ActionFunctionArgs)=>{
+export const action = async ({ request }: ActionFunctionArgs) => {
   const formData = await request.formData();
   const id = Number(formData.get("id"));
-  const status = formData.get("status") === "true";
+  const method = formData.get("_method");
 
-  if(!id){
-    return json({error:"Missing reward ID"},{status:400});
+  if (!id) {
+    return json({ error: "Missing reward ID" }, { status: 400 });
   }
 
-  await prisma.reward.delete({
-    where:{id},
-  });
+  if (method === "DELETE") {
+    await prisma.reward.delete({
+      where: { id },
+    });
+  } else if (method === "PATCH") {
+    const status = formData.get("status") === "true";
+    
+    await prisma.reward.update({
+      where: { id },
+      data: { status },
+    });
+  }
 
-  return json({success:true})
-}
-
+  return json({ success: true });
+};
 
 const RewardPage = () => {
-  const { rewards } = useLoaderData<typeof loader>();
+  const { rewards: initialRewards } = useLoaderData<typeof loader>();
+  const [rewards, setRewards] = useState(initialRewards);
   const [isOpen, setIsOpen] = useState(false);
   const [selected, setSelected] = useState("");
   const navigate = useNavigate();
+  const fetcher = useFetcher();
+
+  useEffect(() => {
+    // setRewards(initialRewards);
+  }, []);
 
   const handleChange = (value: string) => {
     setSelected(value);
@@ -64,28 +79,42 @@ const RewardPage = () => {
 
   const handleDelete = async (id: number) => {
     const confirmed = window.confirm("Are you sure you want to delete this reward");
-    if(!confirmed)return;
+    if (!confirmed) return;
 
-    try{
+    try {
       const formData = new FormData();
-      formData.append("id",id.toString())
-      const response = await fetch(`/app/referral`,{
-        method:"DELETE",
-        body:formData,
-      });
-
-      if(!response.ok){
-        throw new Error("Failed to delete");
-      }
-      window.location.reload();
+      formData.append("id", id.toString());
+      formData.append("_method", "DELETE");
+      setRewards(rewards.filter(reward => reward.id !== id));
+      fetcher.submit(formData, { method: "post" });
+    } catch (error) {
+      console.error("error deleting reward", error);
     }
-    catch(error){
-      console.error("error deleting reward",error);
-    }
-
   };
 
-  
+  const handleStatusChange = async (id: number, currentStatus: boolean) => {
+    try {
+      const rewardToUpdate = rewards.find(reward => reward.id === id);
+      if (!rewardToUpdate) return;
+      
+      const updatedRewards = rewards.map(reward => 
+        reward.id === id 
+          ? { ...reward, status: !currentStatus } 
+          : reward
+      );
+      
+      setRewards(updatedRewards);
+      
+      const formData = new FormData();
+      formData.append("id", id.toString());
+      formData.append("status", (!currentStatus).toString());
+      formData.append("_method", "PATCH");
+      
+      fetcher.submit(formData, { method: "post" });
+    } catch (error) {
+      console.error("Error updating reward status", error);
+    }
+  };
 
   return (
     <Page title="Rewards">
@@ -93,56 +122,71 @@ const RewardPage = () => {
         <Button variant="primary" onClick={() => setIsOpen(true)}>
           Create a Reward
         </Button>
-        
       </div>
 
       <BlockStack gap="400">
         <Text as="p" variant="headingMd">
           Existing Rewards
         </Text>
-        {rewards.length > 0 ? (
-          rewards.map((reward) => (
-            <Card key={reward.id}>
-              <BlockStack gap="200">
-                <InlineStack align="space-between">
-                  <Text as="p" variant="headingSm">
-                    {reward.title}
-                   
-                  </Text>
-                  <Text as="p" variant="headingSm">
-                  <span
-                    style={{
-                      color: reward.rewardType === "REFERRER" ? "green" : "red",
-                      fontWeight: "bold",
-                      padding: "4px 8px",
-                      borderRadius: "4px",
-                    }}
-                  >
-                  {reward.rewardType}
-                </span>
-              </Text>
+        <div style={{ height: "calc(100vh - 200px)", overflowY: "auto" }}>
+          {rewards.length > 0 ? (
+            <BlockStack gap="400">
+              {rewards.map((reward) => (
+                <Card key={reward.id}>
+                  <BlockStack gap="200">
+                    <InlineStack align="space-between">
+                      <Text as="p" variant="headingSm">
+                        {reward.title}
+                      </Text>
+                      <InlineStack gap="300" align="center">
+                        <Text as="p" variant="headingSm">
+                          <span
+                            style={{
+                              color: reward.rewardType === "REFERRER" ? "green" : "red",
+                              fontWeight: "bold",
+                              padding: "4px 8px",
+                              borderRadius: "4px",
+                            }}
+                          >
+                            {reward.rewardType}
+                          </span>
+                        </Text>
+                        <label className="toggle-switch">
+                          <input
+                            type="checkbox"
+                            checked={reward.status || false}
+                            onChange={() => handleStatusChange(reward.id, reward.status || false)}
+                          />
+                          <span className="slider"></span>
+                        </label>
+                      </InlineStack>
 
+                      <InlineStack gap="200">
+                        <Button 
+                          // variant="plain" 
+                          icon={EditIcon} 
+                          onClick={() => handleEdit(reward.id)} 
+                          accessibilityLabel="edit"
+                        />
+                        <Button 
+                          // variant="plain" 
+                          icon={DeleteIcon} 
+                          onClick={() => handleDelete(reward.id)}
+                        />
+                      </InlineStack>
+                    </InlineStack>
 
-                  <InlineStack gap="200">
-                    <Button variant="plain"icon={EditIcon} onClick={() => handleEdit(reward.id)} accessibilityLabel="edit">
-                      
-                    </Button>         
-                    <Button variant="plain" icon={DeleteIcon} onClick={() => handleDelete(reward.id)}>
-                  
-                    </Button>
-                  </InlineStack>
-                </InlineStack>
-
-                <Text as="p">
-                  Discount: {reward.discount} {reward.discountType === "percentage" ? "%" : "$"}
-                </Text>
-
-              </BlockStack>
-            </Card>
-          ))
-        ) : (
-          <Text as="p">No rewards available.</Text>
-        )}
+                    <Text as="p">
+                      Discount: {reward.discount} {reward.discountType === "percentage" ? "%" : "$"}
+                    </Text>
+                  </BlockStack>
+                </Card>
+              ))}
+            </BlockStack>
+          ) : (
+            <Text as="p">No rewards available.</Text>
+          )}
+        </div>
       </BlockStack>
 
       <Modal

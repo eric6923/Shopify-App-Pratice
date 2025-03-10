@@ -1,7 +1,18 @@
+import { useState } from "react";
+import { Checkbox } from "@shopify/polaris";
+import '../styles/ToggleSwitch.css'
 
-export default function MainPage() {
-  
+export default function ToggleSwitch() {
+  const [isChecked, setIsChecked] = useState(false);
+
   return (
-    <div><h1>Main Page</h1></div>
+    <label className="toggle-switch">
+      <input
+        type="checkbox"
+        checked={isChecked}
+        onChange={() => setIsChecked(!isChecked)}
+      />
+      <span className="slider"></span>
+    </label>
   );
 }
