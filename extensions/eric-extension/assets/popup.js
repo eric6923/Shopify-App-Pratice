@@ -7,7 +7,6 @@ document.addEventListener("DOMContentLoaded", function() {
   
   if (referralCode) {
     try {
-      // Create popup with very basic styling that's hard to miss
       const modal = document.createElement("div");
       modal.id = "referral-popup";
       modal.style.position = "fixed";
@@ -41,8 +40,7 @@ document.addEventListener("DOMContentLoaded", function() {
       console.log("About to append popup to body");
       document.body.appendChild(modal);
       console.log("Popup appended to body");
-      
-      // Add event listeners
+
       document.getElementById("close-popup").addEventListener("click", function() {
         console.log("Close button clicked");
         document.getElementById("referral-popup").remove();
