@@ -16,6 +16,7 @@ export const action: ActionFunction = async ({ request }) => {
       const friendReward = await prisma.reward.findFirst({
         where: { rewardType: "FRIEND", status: true },
         select: {
+          title:true,
           discount: true,
           discountType: true,
           minOrderAmount: true,
@@ -27,8 +28,7 @@ export const action: ActionFunction = async ({ request }) => {
         return json({ error: "No active FRIEND reward found" }, { status: 400 });
       }
   
-      const { discount, discountType, minOrderAmount } = friendReward;
-  
+      const { title,discount, discountType, minOrderAmount } = friendReward;
       const discountCode = `FRIEND${Math.floor(Math.random() * 10000)}`;
       const today = new Date();
       const oneMonthLater = new Date();
@@ -38,13 +38,16 @@ export const action: ActionFunction = async ({ request }) => {
   
       console.log("Starts at:", startsAt, "Ends at:", endsAt);
   
-      // Set discount value format based on type
       let discountValue;
       if (discountType === "percentage") {
-        discountValue = discount / 100;  // Convert percentage to decimal
-    // Shopify API expects percentage format
+        discountValue = discount/100;
       } else if (discountType === "fixed") {
-        discountValue = discount/100; // Shopify API expects fixed amount format
+        discountValue = { 
+          discountAmount: { 
+            amount: parseFloat(discount.toFixed(2)), 
+            appliesOnEachItem: false 
+          } 
+        }
       } else {
         return json({ error: "Invalid discount type" }, { status: 400 });
       }
@@ -78,9 +81,7 @@ export const action: ActionFunction = async ({ request }) => {
               endsAt,
               customerSelection: { all: true },
               customerGets: {
-                value: {
-                    percentage:discountValue 
-                },
+                value: discountValue,
                 items:{
                     all:true
                 }
@@ -117,21 +118,11 @@ export default function Discounts() {
   console.log(actionData, "actionData");
   const generateDiscount = () => submit({}, { replace: true, method: "POST" });
 
-  const [title, settitle] = useState("");
-
   return (
     <div>
       <Page>
         <Card>
           <Form onSubmit={generateDiscount} method="post">
-            <TextField
-              id="title"
-              name="title"
-              label="Title"
-              autoComplete="off"
-              value={title}
-              onChange={(value) => settitle(value)}
-            />
             <Button submit>Create Discount</Button>
           </Form>
         </Card>
