@@ -1,7 +1,7 @@
 # Learn more about configuring your app at https://shopify.dev/docs/apps/tools/cli/configuration
 
 client_id = "14993d74caaf7c040a712c77607dd865"
-application_url = "https://mode-golf-pottery-dial.trycloudflare.com"
+application_url = "https://plate-daisy-seeker-thanksgiving.trycloudflare.com"
 embedded = true
 name = "project"
 handle = "project-76"
@@ -15,11 +15,11 @@ api_version = "2025-01"
 
   [[webhooks.subscriptions]]
   topics = [ "app/scopes_update" ]
-  uri = "/webhooks/app/scopes_update"
+  uri = "https://forestry-republicans-modified-verified.trycloudflare.com/webhooks/app/scopes_update"
 
   [[webhooks.subscriptions]]
   topics = [ "app/uninstalled" ]
-  uri = "/webhooks/app/uninstalled"
+  uri = "https://forestry-republicans-modified-verified.trycloudflare.com/webhooks/app/uninstalled"
 
 [access_scopes]
 # Learn more at https://shopify.dev/docs/apps/tools/cli/configuration#access_scopes
@@ -27,10 +27,15 @@ scopes = "read_orders,read_products,write_customers,write_discounts,write_produc
 
 [auth]
 redirect_urls = [
-  "https://mode-golf-pottery-dial.trycloudflare.com/auth/callback",
-  "https://mode-golf-pottery-dial.trycloudflare.com/auth/shopify/callback",
-  "https://mode-golf-pottery-dial.trycloudflare.com/api/auth/callback"
+  "https://plate-daisy-seeker-thanksgiving.trycloudflare.com/auth/callback",
+  "https://plate-daisy-seeker-thanksgiving.trycloudflare.com/auth/shopify/callback",
+  "https://plate-daisy-seeker-thanksgiving.trycloudflare.com/api/auth/callback"
 ]
+
+[app_proxy]
+url = "https://plate-daisy-seeker-thanksgiving.trycloudflare.com/app/main"
+subpath = "main"
+prefix = "apps"
 
 [pos]
 embedded = false

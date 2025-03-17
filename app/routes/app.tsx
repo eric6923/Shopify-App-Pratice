@@ -39,7 +39,7 @@ export default function App() {
       <NavMenu>
         <Link to="/app/referral" rel="home">Home</Link>
         <Link to="/app/discounts">Discount Check</Link>
-        <Link to="/app/main">Proxy Check</Link>
+        {/* <Link to="/app/main">Proxy Check</Link> */}
       </NavMenu>
 
       {/* <Page title="">

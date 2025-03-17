@@ -2,7 +2,6 @@ import { ActionFunction, json } from "@remix-run/node";
 import { Form, useActionData, useSubmit } from "@remix-run/react";
 import { Button, Card, Page, TextField } from "@shopify/polaris";
 import { authenticate } from "app/shopify.server";
-import { useState } from "react";
 import  prisma  from "../db.server";
 
 export const action: ActionFunction = async ({ request }) => {
