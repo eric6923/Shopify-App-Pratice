@@ -1,7 +1,7 @@
 # Learn more about configuring your app at https://shopify.dev/docs/apps/tools/cli/configuration
 
 client_id = "14993d74caaf7c040a712c77607dd865"
-application_url = "https://plate-daisy-seeker-thanksgiving.trycloudflare.com"
+application_url = "https://np-dose-important-things.trycloudflare.com"
 embedded = true
 name = "project"
 handle = "project-76"
@@ -27,13 +27,13 @@ scopes = "read_orders,read_products,write_customers,write_discounts,write_produc
 
 [auth]
 redirect_urls = [
-  "https://plate-daisy-seeker-thanksgiving.trycloudflare.com/auth/callback",
-  "https://plate-daisy-seeker-thanksgiving.trycloudflare.com/auth/shopify/callback",
-  "https://plate-daisy-seeker-thanksgiving.trycloudflare.com/api/auth/callback"
+  "https://np-dose-important-things.trycloudflare.com/auth/callback",
+  "https://np-dose-important-things.trycloudflare.com/auth/shopify/callback",
+  "https://np-dose-important-things.trycloudflare.com/api/auth/callback"
 ]
 
 [app_proxy]
-url = "https://plate-daisy-seeker-thanksgiving.trycloudflare.com/app/main"
+url = "https://np-dose-important-things.trycloudflare.com/app/main"
 subpath = "main"
 prefix = "apps"
 
