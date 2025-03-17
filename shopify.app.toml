@@ -1,7 +1,7 @@
 # Learn more about configuring your app at https://shopify.dev/docs/apps/tools/cli/configuration
 
 client_id = "14993d74caaf7c040a712c77607dd865"
-application_url = "https://np-dose-important-things.trycloudflare.com"
+application_url = "https://varied-occasion-muscles-lou.trycloudflare.com"
 embedded = true
 name = "project"
 handle = "project-76"
@@ -27,13 +27,13 @@ scopes = "read_orders,read_products,write_customers,write_discounts,write_produc
 
 [auth]
 redirect_urls = [
-  "https://np-dose-important-things.trycloudflare.com/auth/callback",
-  "https://np-dose-important-things.trycloudflare.com/auth/shopify/callback",
-  "https://np-dose-important-things.trycloudflare.com/api/auth/callback"
+  "https://varied-occasion-muscles-lou.trycloudflare.com/auth/callback",
+  "https://varied-occasion-muscles-lou.trycloudflare.com/auth/shopify/callback",
+  "https://varied-occasion-muscles-lou.trycloudflare.com/api/auth/callback"
 ]
 
 [app_proxy]
-url = "https://np-dose-important-things.trycloudflare.com/app/main"
+url = "https://varied-occasion-muscles-lou.trycloudflare.com/app/main"
 subpath = "main"
 prefix = "apps"
 
