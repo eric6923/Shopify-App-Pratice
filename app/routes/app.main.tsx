@@ -143,7 +143,7 @@ export const action: ActionFunction = async ({ request }) => {
     
     const response = await fetch(apiUrl, {
       method: 'POST',
-      headers: { 
+      headers: {
         'Content-Type': 'application/json',
         'X-Shopify-Access-Token': accessToken
       },
