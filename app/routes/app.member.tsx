@@ -14,9 +14,10 @@ import {
   Popover,
   ActionList,
   Badge,
+  Modal,
 } from "@shopify/polaris";
 import prisma from "../db.server";
-import { EditIcon, MenuHorizontalIcon } from "@shopify/polaris-icons";
+import { EditIcon, MenuHorizontalIcon, DeleteIcon } from "@shopify/polaris-icons";
 import { useState, useCallback } from "react";
 
 export const loader: LoaderFunction = async () => {
@@ -33,19 +34,39 @@ export const loader: LoaderFunction = async () => {
 
 export const action: ActionFunction = async ({ request }) => {
   const formData = await request.formData();
+  const action = formData.get("action")?.toString();
   const memberId = formData.get("memberId")?.toString();
-  const status = formData.get("status")?.toString();
 
-  if (!memberId || !status) {
-    return json({ error: "Missing required fields" }, { status: 400 });
+  if (!memberId) {
+    return json({ error: "Missing member ID" }, { status: 400 });
   }
 
-  await prisma.member.update({
-    where: { id: parseInt(memberId) },
-    data: { status },
-  });
+  if (action === "updateStatus") {
+    const status = formData.get("status")?.toString();
+    
+    if (!status) {
+      return json({ error: "Missing required fields" }, { status: 400 });
+    }
 
-  return json({ success: true });
+    await prisma.member.update({
+      where: { id: parseInt(memberId) },
+      data: { status },
+    });
+
+    return json({ success: true, message: "Status updated successfully" });
+  } 
+  else if (action === "deleteMember") {
+    try {
+      await prisma.member.delete({
+        where: { id: parseInt(memberId) },
+      });
+      return json({ success: true, message: "Member deleted successfully" });
+    } catch (error) {
+      return json({ error: "Failed to delete member" }, { status: 500 });
+    }
+  }
+
+  return json({ error: "Invalid action" }, { status: 400 });
 };
 
 export default function MembersPage() {
@@ -53,6 +74,8 @@ export default function MembersPage() {
   const fetcher = useFetcher();
 
   const [activePopoverId, setActivePopoverId] = useState<number | null>(null);
+  const [deleteModalActive, setDeleteModalActive] = useState(false);
+  const [memberToDelete, setMemberToDelete] = useState<number | null>(null);
 
   const togglePopover = useCallback(
     (id: number) => {
@@ -64,6 +87,7 @@ export default function MembersPage() {
   const handleStatusChange = useCallback(
     (memberId: number, status: string) => {
       const formData = new FormData();
+      formData.append("action", "updateStatus");
       formData.append("memberId", memberId.toString());
       formData.append("status", status);
 
@@ -72,6 +96,24 @@ export default function MembersPage() {
     },
     [fetcher],
   );
+
+  const handleDeleteClick = useCallback((memberId: number) => {
+    setMemberToDelete(memberId);
+    setDeleteModalActive(true);
+    setActivePopoverId(null);
+  }, []);
+
+  const handleDeleteConfirm = useCallback(() => {
+    if (memberToDelete) {
+      const formData = new FormData();
+      formData.append("action", "deleteMember");
+      formData.append("memberId", memberToDelete.toString());
+
+      fetcher.submit(formData, { method: "post" });
+      setDeleteModalActive(false);
+      setMemberToDelete(null);
+    }
+  }, [memberToDelete, fetcher]);
 
   const renderStatusBadge = (status: string) => {
     let color = "new";
@@ -129,9 +171,6 @@ export default function MembersPage() {
 
         renderStatusBadge(member.status || "PENDING"),
         <div style={{ display: "flex", gap: "4px" }}>
-          <Link to={`/app/editmember/${member.id}`}>
-            <Button icon={EditIcon} size="slim" />
-          </Link>
           <Popover
             active={activePopoverId === member.id}
             activator={activator}
@@ -160,6 +199,14 @@ export default function MembersPage() {
               ]}
             />
           </Popover>
+          <Link to={`/app/editmember/${member.id}`}>
+            <Button icon={EditIcon} size="slim" />
+          </Link>
+          <Button 
+            icon={DeleteIcon} 
+            size="slim" 
+            onClick={() => handleDeleteClick(member.id)} 
+          />
         </div>,
       ];
     },
@@ -206,6 +253,28 @@ export default function MembersPage() {
           rows={rows}
         />
       </Card>
+
+      {/* Delete Confirmation Modal */}
+      <Modal
+        open={deleteModalActive}
+        onClose={() => setDeleteModalActive(false)}
+        title="Delete Member"
+        primaryAction={{
+          content: "Delete",
+          destructive: true,
+          onAction: handleDeleteConfirm,
+        }}
+        secondaryActions={[
+          {
+            content: "Cancel",
+            onAction: () => setDeleteModalActive(false),
+          },
+        ]}
+      >
+        <Modal.Section>
+          <Text as="p">Are you sure you want to delete this member? This action cannot be undone.</Text>
+        </Modal.Section>
+      </Modal>
     </Page>
   );
 }

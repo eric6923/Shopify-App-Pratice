@@ -1,7 +1,7 @@
 # Learn more about configuring your app at https://shopify.dev/docs/apps/tools/cli/configuration
 
 client_id = "14993d74caaf7c040a712c77607dd865"
-application_url = "https://patient-occasions-rewards-package.trycloudflare.com"
+application_url = "https://combination-airfare-express-calculated.trycloudflare.com"
 embedded = true
 name = "project"
 handle = "project-76"
@@ -27,13 +27,13 @@ scopes = "read_orders,read_products,write_customers,write_discounts,write_produc
 
 [auth]
 redirect_urls = [
-  "https://patient-occasions-rewards-package.trycloudflare.com/auth/callback",
-  "https://patient-occasions-rewards-package.trycloudflare.com/auth/shopify/callback",
-  "https://patient-occasions-rewards-package.trycloudflare.com/api/auth/callback"
+  "https://combination-airfare-express-calculated.trycloudflare.com/auth/callback",
+  "https://combination-airfare-express-calculated.trycloudflare.com/auth/shopify/callback",
+  "https://combination-airfare-express-calculated.trycloudflare.com/api/auth/callback"
 ]
 
 [app_proxy]
-url = "https://patient-occasions-rewards-package.trycloudflare.com/app/main"
+url = "https://combination-airfare-express-calculated.trycloudflare.com/app/main"
 subpath = "main"
 prefix = "apps"
 

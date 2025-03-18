@@ -63,3 +63,11 @@ model member{
   referralCode String? @unique @default(uuid())
   phoneNumber String?
 }
+
+model Tracker{
+  id String @id @default(uuid())
+  referrerId Int
+  friendId Int
+  discountCode String
+  createdAt DateTime @default(now())
+}
