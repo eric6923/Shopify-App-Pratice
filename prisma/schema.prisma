@@ -66,8 +66,8 @@ model member{
 
 model Tracker{
   id String @id @default(uuid())
-  referrerId Int
-  friendId Int
-  discountCode String
+  referrerId Int?
+  friendId Int?
+  discountCode String?
   createdAt DateTime @default(now())
 }

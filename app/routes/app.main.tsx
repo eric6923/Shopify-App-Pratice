@@ -72,8 +72,7 @@ export const action: ActionFunction = async ({ request }) => {
 
     const { title, discount, discountType, minOrderAmount } = friendReward;
     
-    // Generate nanoid-style discount code
-    const discountCode = generateNanoId(10); // e.g. "zpNys2K4WP"
+    const discountCode = generateNanoId(10);
     
     const today = new Date();
     const oneMonthLater = new Date();
@@ -167,28 +166,49 @@ export const action: ActionFunction = async ({ request }) => {
       }, { status: 500 });
     }
 
-    // Create new member using the email from the popup
+    let newMemberId = null;
+
     try {
-      // Extract first name from email (part before @)
       const firstName = email.split('@')[0];
       
-      // Generate nanoid-style referral code
-      const newReferralCode = generateNanoId(10); // e.g. "zpNys2K4WP"
+      const newReferralCode = generateNanoId(10);
       
-      // Create the new member
       const newMember = await prisma.member.create({
         data: {
           email,
           firstName,
           status: "APPROVED",
-          referralCode: newReferralCode // Use generated nanoid instead of UUID
+          referralCode: newReferralCode
         }
       });
       
       console.log("Member created successfully:", newMember);
+      newMemberId = newMember.id;
+      
+      console.log("Creating tracker with data:", {
+        referrerId: member.id,
+        friendId: newMemberId,
+        discountCode
+      });
+      
+      const trackerRecord = await prisma.tracker.create({
+        data: {
+          referrerId: member.id,
+          friendId: newMemberId,
+          discountCode: discountCode 
+        }
+      });
+      
+      console.log("Referral tracking created successfully:", trackerRecord);
+      
+      const verifyTracker = await prisma.tracker.findUnique({
+        where: { id: trackerRecord.id }
+      });
+      
+      console.log("Verified tracker in database:", verifyTracker);
+      
     } catch (memberError) {
-      // If there's an error creating the member, log it but don't fail the request
-      console.error("Error creating member:", memberError);
+      console.error("Error creating member or tracking:", memberError);
     }
 
     return json({ 
@@ -205,7 +225,6 @@ export const action: ActionFunction = async ({ request }) => {
   }
 };
 
-// Helper function to generate nanoid-style IDs
 function generateNanoId(length = 10) {
   const charset = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
   let result = '';
