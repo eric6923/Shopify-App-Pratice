@@ -1,7 +1,7 @@
 # Learn more about configuring your app at https://shopify.dev/docs/apps/tools/cli/configuration
 
 client_id = "14993d74caaf7c040a712c77607dd865"
-application_url = "https://checked-trinity-singer-gathering.trycloudflare.com"
+application_url = "https://down-cork-overview-spot.trycloudflare.com"
 embedded = true
 name = "project"
 handle = "project-76"
@@ -15,25 +15,25 @@ api_version = "2025-01"
 
   [[webhooks.subscriptions]]
   topics = [ "app/scopes_update" ]
-  uri = "https://forestry-republicans-modified-verified.trycloudflare.com/webhooks/app/scopes_update"
+  uri = "https://down-cork-overview-spot.trycloudflare.com/webhooks/app/scopes_update"
 
   [[webhooks.subscriptions]]
-  topics = [ "app/uninstalled", "orders/updated" ]
-  uri = "https://forestry-republicans-modified-verified.trycloudflare.com/webhooks/app/uninstalled"
+  topics = [ "app/uninstalled","orders/updated" ]
+  uri = "https://down-cork-overview-spot.trycloudflare.com/webhooks/app/uninstalled"
 
 [access_scopes]
 # Learn more at https://shopify.dev/docs/apps/tools/cli/configuration#access_scopes
-scopes = "read_orders,read_products,write_customers,write_discounts,write_products,buyer_membership_orders,marketplace_orders,orders"
+scopes = "read_orders,read_products,write_customers,write_discounts,write_products,read_themes"
 
 [auth]
 redirect_urls = [
-  "https://checked-trinity-singer-gathering.trycloudflare.com/auth/callback",
-  "https://checked-trinity-singer-gathering.trycloudflare.com/auth/shopify/callback",
-  "https://checked-trinity-singer-gathering.trycloudflare.com/api/auth/callback"
+  "https://down-cork-overview-spot.trycloudflare.com/auth/callback",
+  "https://down-cork-overview-spot.trycloudflare.com/auth/shopify/callback",
+  "https://down-cork-overview-spot.trycloudflare.com/api/auth/callback"
 ]
 
 [app_proxy]
-url = "https://checked-trinity-singer-gathering.trycloudflare.com/app/main"
+url = "https://down-cork-overview-spot.trycloudflare.com/app/main"
 subpath = "main"
 prefix = "apps"
 
