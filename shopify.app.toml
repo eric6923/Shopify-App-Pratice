@@ -1,7 +1,7 @@
 # Learn more about configuring your app at https://shopify.dev/docs/apps/tools/cli/configuration
 
 client_id = "14993d74caaf7c040a712c77607dd865"
-application_url = "https://apps-notices-crack-ivory.trycloudflare.com"
+application_url = "https://checked-trinity-singer-gathering.trycloudflare.com"
 embedded = true
 name = "project"
 handle = "project-76"
@@ -23,17 +23,17 @@ api_version = "2025-01"
 
 [access_scopes]
 # Learn more at https://shopify.dev/docs/apps/tools/cli/configuration#access_scopes
-scopes = "read_orders,read_products,write_customers,write_discounts,write_products"
+scopes = "read_orders,read_products,write_customers,write_discounts,write_products,buyer_membership_orders,marketplace_orders,orders"
 
 [auth]
 redirect_urls = [
-  "https://apps-notices-crack-ivory.trycloudflare.com/auth/callback",
-  "https://apps-notices-crack-ivory.trycloudflare.com/auth/shopify/callback",
-  "https://apps-notices-crack-ivory.trycloudflare.com/api/auth/callback"
+  "https://checked-trinity-singer-gathering.trycloudflare.com/auth/callback",
+  "https://checked-trinity-singer-gathering.trycloudflare.com/auth/shopify/callback",
+  "https://checked-trinity-singer-gathering.trycloudflare.com/api/auth/callback"
 ]
 
 [app_proxy]
-url = "https://apps-notices-crack-ivory.trycloudflare.com/app/main"
+url = "https://checked-trinity-singer-gathering.trycloudflare.com/app/main"
 subpath = "main"
 prefix = "apps"
 
