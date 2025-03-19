@@ -1,7 +1,7 @@
 # Learn more about configuring your app at https://shopify.dev/docs/apps/tools/cli/configuration
 
 client_id = "14993d74caaf7c040a712c77607dd865"
-application_url = "https://down-cork-overview-spot.trycloudflare.com"
+application_url = "https://picking-postcards-approximate-starting.trycloudflare.com"
 embedded = true
 name = "project"
 handle = "project-76"
@@ -18,7 +18,7 @@ api_version = "2025-01"
   uri = "https://down-cork-overview-spot.trycloudflare.com/webhooks/app/scopes_update"
 
   [[webhooks.subscriptions]]
-  topics = [ "app/uninstalled","orders/updated" ]
+  topics = [ "app/uninstalled", "orders/updated" ]
   uri = "https://down-cork-overview-spot.trycloudflare.com/webhooks/app/uninstalled"
 
 [access_scopes]
@@ -27,13 +27,13 @@ scopes = "read_orders,read_products,write_customers,write_discounts,write_produc
 
 [auth]
 redirect_urls = [
-  "https://down-cork-overview-spot.trycloudflare.com/auth/callback",
-  "https://down-cork-overview-spot.trycloudflare.com/auth/shopify/callback",
-  "https://down-cork-overview-spot.trycloudflare.com/api/auth/callback"
+  "https://picking-postcards-approximate-starting.trycloudflare.com/auth/callback",
+  "https://picking-postcards-approximate-starting.trycloudflare.com/auth/shopify/callback",
+  "https://picking-postcards-approximate-starting.trycloudflare.com/api/auth/callback"
 ]
 
 [app_proxy]
-url = "https://down-cork-overview-spot.trycloudflare.com/app/main"
+url = "https://picking-postcards-approximate-starting.trycloudflare.com/app/main"
 subpath = "main"
 prefix = "apps"
 

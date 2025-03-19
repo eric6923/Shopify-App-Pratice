@@ -8,8 +8,9 @@ datasource db {
 }
 
 model Session {
-  id            String    @id
-  shop          String
+  id            String  @id
+  shopId        Int
+  shop          Shop    @relation("ShopSession", fields: [shopId], references: [id])
   state         String
   isOnline      Boolean   @default(false)
   scope         String?
@@ -25,14 +26,27 @@ model Session {
   emailVerified Boolean?  @default(false)
 }
 
+model Shop {
+  id          Int    @id @default(autoincrement())
+  shop        String @unique
+  accessToken String
+  createdAt   DateTime @default(now())
+
+  sessions    Session[]  @relation("ShopSession")
+  rewards     reward[]   @relation("ShopReward")
+  members     member[]   @relation("ShopMember")
+}
+
 model reward {
   id          Int     @id @default(autoincrement())
+  shopId      Int
+  shop        Shop    @relation("ShopReward", fields: [shopId], references: [id])
   title       String  
   discount    Float   
   discountType String?
   appliesTo   String?
   purchaseType String?
-  products Json?
+  products    Json?
   collections Json?
   minOrderAmount    Float   
   minOrderQuantity Float
@@ -40,6 +54,32 @@ model reward {
   status      Boolean?  @default(true)
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
+}
+
+model member {
+  id         Int    @id @default(autoincrement())
+  shopId     Int
+  shop       Shop   @relation("ShopMember", fields: [shopId], references: [id])
+  firstName  String?
+  lastName   String?
+  email      String? @unique
+  status     Status? @default(PENDING)
+  referralCode String? @unique @default(uuid())
+  phoneNumber String?
+
+  referred   Tracker[] @relation("Referrer")
+  friends    Tracker[] @relation("Friend")
+}
+
+model Tracker {
+  id          String @id @default(uuid())
+  referrerId  Int?
+  friendId    Int?
+  discountCode String?
+  createdAt   DateTime @default(now())
+
+  referrer   member? @relation("Referrer", fields: [referrerId], references: [id])
+  friend     member? @relation("Friend", fields: [friendId], references: [id])
 }
 
 enum RewardType {
@@ -52,22 +92,4 @@ enum Status {
   PENDING
   REJECT
   DISABLE 
-}
-
-model member{
-  id Int @id @default(autoincrement())
-  firstName String?
-  lastName String?
-  email String? @unique
-  status Status? @default(PENDING)
-  referralCode String? @unique @default(uuid())
-  phoneNumber String?
-}
-
-model Tracker{
-  id String @id @default(uuid())
-  referrerId Int?
-  friendId Int?
-  discountCode String?
-  createdAt DateTime @default(now())
 }
